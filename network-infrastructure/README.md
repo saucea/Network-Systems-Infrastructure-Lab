@@ -27,7 +27,7 @@ flowchart TD
 %% =========================
 %% Internet & Modem
 A[Internet] --> B[ISP Modem]
-B --> C[Router]
+B --> C[Router/Firewall]
 
 %% Router Ports
 C --> R2[Port 2 - LAN Trunk to Switch]
@@ -70,7 +70,7 @@ EXT[Remote User] --> VPN[WireGuard VPN]
 VPN --> C
 
 %% =========================
-%% Inter-VLAN Rules (Sanitized)
+%% Inter-VLAN Rules
 %% =========================
 V1 -->|Allowed| V2
 V1 -->|Allowed| V3

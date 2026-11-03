@@ -1,16 +1,20 @@
-Virtualization with Proxmox
+# Virtualization with Proxmox
 
-Built a virtualization environment using Proxmox to host multiple virtual machines and services.
+Two headless servers run Proxmox as the hypervisor: a MacBook Pro and a Dell.
 
-Key Features:
-+ Deployed Ubuntu VM for reverse proxy hosting
-+ Hosted game servers in isolated VM environments
-+ Self-hosted ticketing system to track repairs
-+ Allocated resources for future expansion
-+ Integrated Docker workloads within VMs
+| Host | What it runs |
+|---|---|
+| MacBook Pro | Game servers (e.g. Minecraft) |
+| Dell | Active Directory lab, NGINX reverse proxy, Prometheus + Grafana monitoring |
 
-Skills Demonstrated:
-+ Virtualization and hypervisor management
-+ Resource allocation and optimization
-+ VM lifecycle management
-+ Containerization basics (Docker)
+## Skills
+
+- Creating and managing VMs and resource allocation
+- Keeping hosts and VMs patched and backed up
+- Running services in isolated VMs
+
+## Lessons
+
+I updated firmware on the MacBook without taking a backup first, and its Ethernet stopped working afterward. I'm still troubleshooting it. Since then I back up before any firmware or major update. Details in the [Troubleshooting Log](../troubleshooting-log/).
+
+> **TODO:** Add VM specs table (name, OS, CPU, RAM) and a Proxmox dashboard screenshot.

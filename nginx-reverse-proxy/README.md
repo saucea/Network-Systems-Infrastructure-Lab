@@ -15,4 +15,4 @@ An NGINX server routes traffic to my internal services by hostname and serves th
 - Encrypted connections between my devices and my services
 - Hides the internal IP structure from users
 
-> **TODO:** Say how you obtained the certificates (e.g. Let's Encrypt with Cloudflare DNS challenge) and how renewal works.
+> **TODO:** How I obtained the certificates and how renewal works.

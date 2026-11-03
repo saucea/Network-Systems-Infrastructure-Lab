@@ -1,15 +1,18 @@
-NGINX Reverse Proxy with HTTPS
+# NGINX Reverse Proxy with Internal HTTPS
 
-Deployed an NGINX reverse proxy to route traffic to internal services using domain-based routing and port mapping.
+An NGINX server routes traffic to my internal services by hostname and serves them over HTTPS.
 
-Key Features:
-+ Mapped hostnames to internal services running on different ports
-+ Enabled HTTPS using SSL/TLS certificates
-+ Simplified access to multiple services via a single entry point
-+ Improved security by hiding internal IP structure
+## How It Works
 
-Skills Demonstrated:
-+ NGINX configuration
-+ Reverse proxy design patterns
-+ SSL/TLS setup and management
-+ Networking and service routing
+- Pi-hole's local DNS maps my custom internal hostnames to the NGINX server
+- NGINX forwards each hostname to the right service and port
+- I own a domain through Cloudflare and obtained TLS certificates for it, so internal services use valid HTTPS
+- Services are only reachable locally; nothing is exposed to the internet
+
+## Why
+
+- One clean entry point instead of remembering IPs and ports
+- Encrypted connections between my devices and my services
+- Hides the internal IP structure from users
+
+> **TODO:** Say how you obtained the certificates (e.g. Let's Encrypt with Cloudflare DNS challenge) and how renewal works.

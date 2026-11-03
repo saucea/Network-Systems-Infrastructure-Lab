@@ -1,86 +1,69 @@
-Network Infrastructure and Segmentation
+# Network Infrastructure and Segmentation
 
-Designed and implemented a segmented home network using a custom router, managed switch, and wireless access points.
+I rebuilt my home network on UniFi equipment with a Netgear PoE switch trunked into it. The goals were isolation between device types, central management, and a clean physical layout in a small rack.
 
-Key Features:
-+ Configured VLANs for network segmentation:
-  - Main network
-  - Server network
-  - Wi-Fi network
-+ Implemented VLAN tagging across network devices
-+ Applied ACLs to control inter-VLAN communication
-+ Improved network security and isolation
+## Hardware
 
-Skills Demonstrated:
-+ Network design and architecture
-+ VLAN configuration and tagging
-+ Access Control Lists (ACLs)
-+ Router and switch configuration
+| Device | Role |
+|---|---|
+| UniFi Dream Machine Pro | Gateway: router, firewall, DHCP, UniFi Network controller |
+| UniFi Pro Max 16 PoE | Core managed switch, 10G DAC uplink to the gateway |
+| Netgear GS308EP | PoE switch for the access point and camera, trunked to the UniFi switch |
+| UniFi U7 | Wi-Fi access point |
+| UniFi G5 Turret Ultra | Security camera |
+| UniFi Power Distribution Pro | Rack PDU, powers the network gear |
+| Toolless Mini Rack, fixed shelf | Rack and shelf for servers |
+| 24-port keystone patch panel, Cat6 couplers | Structured cabling |
 
-## Overview
+**Servers on the shelf:** UGREEN 2-bay NAS, Raspberry Pi (Pi-hole), MacBook Pro (headless Proxmox), Dell (headless Proxmox).
 
-> Note: This diagram is a simplified representation of the home lab network. Sensitive details such as public IPs, domain names, and access configurations are intentionally omitted for security.
+## Rack Layout (top to bottom)
+
+```
+[ Shelf: NAS | Raspberry Pi | MacBook Pro | Dell ]
+[ 24-port keystone patch panel                   ]
+[ UniFi Pro Max 16 PoE switch                    ]
+[ UniFi Dream Machine Pro                        ]
+[ UniFi Power Distribution Pro                   ]
+```
+
+## Topology
 
 ```mermaid
 flowchart TD
-
-%% =========================
-%% Internet & Modem
-A[Internet] --> B[ISP Modem]
-B --> C[Router/Firewall]
-
-%% Router Ports
-C --> R2[Port 2 - LAN Trunk to Switch]
-C --> R3[Port 3 - AP VLAN 30]
-C --> R4[Port 4 - Unused]
-C --> R5[Port 5 - Unused]
-
-%% Switch
-R2 --> S1[Managed Switch]
-
-%% Switch Ports
-S1 --> S2[Port 2 - VLAN 10 Main PC]
-S1 --> S3[Port 3 - VLAN 20 Pi-hole]
-S1 --> S4[Port 4 - VLAN 20 NAS]
-S1 --> S5[Port 5 - VLAN 20 Proxmox]
-
-%% VLANs (Sanitized)
-S2 --> V1[VLAN 10 - Main\n192.168.10.0/XX]
-S3 --> V2[VLAN 20 - Servers\n192.168.20.0/XX]
-S4 --> V2
-S5 --> V2
-R3 --> V3[VLAN 30 - WiFi\n192.168.30.0/XX]
-
-%% WiFi VLAN Components
-V3 --> AP[Access Point]
-V3 --> WC[WiFi Clients]
-
-%% Proxmox VMs
-S5 --> PX[Proxmox Host]
-PX --> VM1[NGINX Reverse Proxy]
-PX --> VM2[Game Server]
-PX --> VM3[Docker - Zammad]
-
-%% Core Services
-V2 --> DNS[Pi-hole DNS]
-V2 --> NAS[NAS Storage]
-
-%% VPN for Remote Access
-EXT[Remote User] --> VPN[WireGuard VPN]
-VPN --> C
-
-%% =========================
-%% Inter-VLAN Rules
-%% =========================
-V1 -->|Allowed| V2
-V1 -->|Allowed| V3
-
-V3 -->|Allowed| V2
-V3 -.->|Blocked| V1
-
-V2 -.->|Blocked| V1
-V2 -.->|Blocked| V3
-
-%% Servers -> Internet
-V2 -->|Allowed| A
+    A[Internet] --> B[ISP Modem]
+    B --> C[UniFi Dream Machine Pro<br/>Router / Firewall / DHCP]
+    C -->|10G DAC uplink| D[UniFi Pro Max 16 PoE]
+    D -->|Trunk| E[Netgear GS308EP]
+    E --> F[U7 Access Point]
+    E --> G[G5 Turret Ultra Camera]
+    D --> H[Main PC]
+    D --> I[Raspberry Pi: Pi-hole]
+    D --> J[NAS]
+    D --> K[MacBook Pro: Proxmox]
+    D --> L[Dell: Proxmox]
+    M[Remote User] -->|Tailscale| J
 ```
+
+## VLANs and Firewall Policy
+
+| VLAN | Purpose | Policy |
+|---|---|---|
+| Management | Network device administration | TODO: describe access rules |
+| Main | Primary computers | TODO: describe access rules |
+| Main Wi-Fi | Trusted wireless devices, authenticated via RADIUS | TODO: describe access rules |
+| Servers | NAS, Pi-hole, Proxmox hosts | Cannot initiate connections to other VLANs; return traffic allowed |
+| IoT | Smart/IoT devices | Isolated from all other VLANs; exception: DNS to Pi-hole |
+| Guest | Guest Wi-Fi | Isolated from all other VLANs; exception: DNS to Pi-hole |
+
+DHCP is handled by the gateway. Pi-hole provides DNS for every VLAN.
+
+## What I Learned
+
+- Trunking between two vendors (UniFi and Netgear) takes careful matching of tagged and untagged VLANs. Getting it wrong can lock you out of a switch.
+- Firewall rules are evaluated in order, and "isolated" VLANs still need explicit exceptions for things like DNS.
+- Always back up the gateway and switch configs before making big changes.
+
+See the [Troubleshooting Log](../troubleshooting-log/) for the specific problems I ran into.
+
+> **TODO:** Add a screenshot of the UniFi network topology and the VLAN list (hide IPs and MACs).

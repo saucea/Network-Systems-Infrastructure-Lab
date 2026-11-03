@@ -51,4 +51,3 @@ Real problems I hit while building and running this lab. Troubleshooting is the 
 ### 9. Patching and backups across all servers
 - **Challenge:** Keeping every server updated with security patches while protecting against data loss.
 - **Practice:** Back up first, then update.
-- > **TODO:** Describe your current routine (how often, what tool).

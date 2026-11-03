@@ -7,7 +7,7 @@ Prometheus and Grafana run on the Dell Proxmox host to monitor the health of the
 - Prometheus collects metrics
 - Grafana visualizes them in dashboards
 
-> **TODO:** List what is monitored (hosts, VMs, NAS, network), which exporters you use, and any alerts.
+> **TODO:** List what is monitored (hosts, VMs, NAS, network), which exporters are used, and any alerts.
 > **TODO:** Add a Grafana dashboard screenshot.
 
 ## Why It Matters

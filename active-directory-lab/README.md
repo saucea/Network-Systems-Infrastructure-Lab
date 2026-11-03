@@ -1,10 +1,8 @@
-# Active Directory Lab
+# Active Directory Lab (In Progress)
 
 A Windows domain environment running as virtual machines on the Dell Proxmox host. I use it to practice what IT support teams do every day: managing users, groups, and devices.
 
-## What I've Built
-
-> **TODO:** Fill in the details below.
+## What I am Planning to Build
 
 - Domain controller: (Windows Server version)
 - Domain structure: (OUs, e.g. Users, Computers, Groups)
@@ -12,11 +10,9 @@ A Windows domain environment running as virtual machines on the Dell Proxmox hos
 - Joined machines: (Windows client VMs)
 - Group Policy: (e.g. password policy, drive mapping)
 
-## Support Tasks I Practice
+## Support Tasks I Will Practice
 
 - Creating, disabling, and resetting user accounts
 - Password resets and account unlocks
 - Joining devices to the domain
 - Applying and testing Group Policy
-
-> **TODO:** Add screenshots of Active Directory Users and Computers and one Group Policy.

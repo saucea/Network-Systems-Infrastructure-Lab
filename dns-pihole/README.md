@@ -1,15 +1,21 @@
-DNS Server with Pi-hole
+# DNS with Pi-hole
 
-Setup a local DNS server using Pi-hole to provide network-wide DNS resolution and ad-blocking.
+Pi-hole runs on a Raspberry Pi and serves as the DNS server for the whole network.
 
-Key Features:
-+ Resolved internal hostnames (e.g., server.home) to local IP addresses
-  - Instead of having to remember IP addresses, I just remember the hostname.
-+ Reduced dependency on external DNS providers
-+ Improved network performance and privacy
-+ Centralized DNS management for all devices on the LAN
+## What It Does
 
-Skills Demonstrated:
-+ DNS configuration and troubleshooting
-+ Network service deployment
-+ Linux system administration
+- Provides DNS for all VLANs, handed out through DHCP on the gateway
+- Blocks ads and trackers using configured blocklists
+- Runs local DNS records so I can use names instead of IP addresses
+- Maps custom local domains to my NGINX reverse proxy so internal services work over HTTPS (see [NGINX Reverse Proxy](../nginx-reverse-proxy/))
+- Guest and IoT VLANs are isolated from everything else but are allowed to reach Pi-hole for DNS
+
+## Common Issues I Troubleshoot
+
+- DNS not resolving because DHCP was not handing out the Pi-hole address correctly
+- Legitimate websites getting blocked by a blocklist
+- Devices not resolving local names
+
+Tools: `nslookup`, `ping`, Pi-hole's web interface. More detail is in the [Troubleshooting Log](../troubleshooting-log/).
+
+> **TODO:** Add a screenshot of the Pi-hole dashboard and a (redacted) local DNS records page.

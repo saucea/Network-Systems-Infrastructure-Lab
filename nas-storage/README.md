@@ -13,5 +13,3 @@ A UGREEN 2-bay NAS with two 4 TB drives in RAID 1 (mirroring), used for central 
 
 - RAID 1 protects against a drive failure, not against deletion, corruption, or a bad update. It is not a backup.
 - Supporting real users on a service I host has taught me to think about uptime, access, and communication.
-
-> **TODO:** Describe your backup plan for the NAS (what gets backed up, where, and how often).
